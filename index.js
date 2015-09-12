@@ -64,7 +64,6 @@ use \`wrk\` to test the Requests/sec (higher is better) for 1, 25, 50, 75, 100 n
 
 | filename | API | 1 | 25 | 50 | 75 | 100 |
 |:---------|----:|--:|---:|---:|---:|----:|`)
-
 bench('koa-next-as-wrapper/async-await.js', 'await next', path.join(__dirname, 'koa-next-as-wrapper/async-await.js'))
 bench('koa-next-as-function/async-await.js', 'await next(context)', path.join(__dirname, 'koa-next-as-function/async-await.js'))
 bench('koa-next-as-wrapper/generator-yield.js', 'return yield next', path.join(__dirname, 'koa-next-as-wrapper/generator-yield.js'))

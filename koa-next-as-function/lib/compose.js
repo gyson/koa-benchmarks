@@ -1,25 +1,19 @@
 'use strict';
 
-const co = require('co')
-
 function compose(middleware) {
     let CACHE = Symbol()
     let noop = function () {
         return Promise.resolve(undefined)
     }
-    return function (next) {
+    return function (ctx, next) {
         next = next || noop
         if (!next[CACHE]) {
             next[CACHE] = middleware.reduceRight(function (next, fn) {
                 return function (ctx) {
                     try {
-                        let result = fn.call(ctx, next)
+                        let result = fn(ctx, next)
                         if (result && typeof result.then === 'function') {
                             return result
-                        }
-                        if (result && typeof result.next === 'function'
-                                   && typeof result.throw === 'function') {
-                            return co.call(ctx, result)
                         }
                         return Promise.resolve(result)
                     } catch (e) {
@@ -28,25 +22,21 @@ function compose(middleware) {
                 }
             }, next)
         }
-        return next[CACHE](this)
+        return next[CACHE](ctx)
     }
 }
 
 module.exports = compose
 
 // let fn = compose([
-//     function (next) {
-//         console.log(1, this)
-//         return next(this)
+//     (ctx, next) => {
+//         return next(ctx)
 //     },
-//     function (next) {
-//         console.log(2, this)
-//         return next(this)
+//     async (ctx, next) => {
+//         return next(ctx)
 //     },
-//     function* (next) {
-//         console.log(3, this)
-//         return next(this)
-//     }
+//     async (ctx, next) => {
+//         await next(ctx)
+//     },
 // ])
 //
-// fn.call({ hello: 'good' })

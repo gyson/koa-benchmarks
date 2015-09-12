@@ -115,10 +115,7 @@ app.use = function(fn){
  */
 
 app.callback = function(){
-  var fn = this.experimental
-    // ? compose_es7(this.middleware)
-    ? compose2(this.middleware)
-    : co.wrap(compose(this.middleware));
+  var fn = compose2(this.middleware)
   var self = this;
 
   if (!this.listeners('error').length) this.on('error', this.onerror);
@@ -127,7 +124,7 @@ app.callback = function(){
     res.statusCode = 404;
     var ctx = self.createContext(req, res);
     onFinished(res, ctx.onerror);
-    fn.call(ctx).then(function () {
+    fn(ctx).then(function () {
       respond.call(ctx);
     }).catch(ctx.onerror);
   }
