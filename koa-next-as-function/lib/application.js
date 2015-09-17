@@ -124,7 +124,7 @@ app.callback = function(){
     res.statusCode = 404;
     var ctx = self.createContext(req, res);
     onFinished(res, ctx.onerror);
-    fn(ctx).then(function () {
+    fn.call(ctx).then(function () {
       respond.call(ctx);
     }).catch(ctx.onerror);
   }

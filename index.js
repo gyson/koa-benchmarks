@@ -23,12 +23,11 @@ console.log(`
 const PORT = 3333
 
 function run(filename, mw) {
+    // only for async-await syntax
+    let babel = /async/.test(filename) ? `require("babel/register")({ stage: 1, optional: ["bluebirdCoroutines"] });` : ''
+
     // bench script from koajs/koa
-    let cmd = `node -e ' \
-        require("babel/register")({ stage: 1, optional: ["bluebirdCoroutines"] }); \
-        global.Promise = require("bluebird"); \
-        require("${filename}"); \
-    '`
+    let cmd = `node -e '${babel} global.Promise = require("bluebird"); require("${filename}");'`
 
     return child.execSync(`
         MW=${mw} PORT=${PORT} ${cmd} &
@@ -65,7 +64,7 @@ use \`wrk\` to test the Requests/sec (higher is better) for 1, 25, 50, 75, 100 n
 | filename | API | 1 | 25 | 50 | 75 | 100 |
 |:---------|----:|--:|---:|---:|---:|----:|`)
 bench('koa-next-as-wrapper/async-await.js', 'await next', path.join(__dirname, 'koa-next-as-wrapper/async-await.js'))
-bench('koa-next-as-function/async-await.js', 'await next(context)', path.join(__dirname, 'koa-next-as-function/async-await.js'))
+bench('koa-next-as-function/async-await.js', 'await next()', path.join(__dirname, 'koa-next-as-function/async-await.js'))
 bench('koa-next-as-wrapper/generator-yield.js', 'return yield next', path.join(__dirname, 'koa-next-as-wrapper/generator-yield.js'))
 bench('koa-next-as-wrapper/generator-delegate.js', 'return yield* next', path.join(__dirname, 'koa-next-as-wrapper/generator-delegate.js'))
-bench('koa-next-as-function/function-return.js', 'return next(context)', path.join(__dirname, 'koa-next-as-function/function-return.js'))
+bench('koa-next-as-function/function-return.js', 'return next()', path.join(__dirname, 'koa-next-as-function/function-return.js'))

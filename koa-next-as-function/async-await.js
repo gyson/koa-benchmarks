@@ -8,15 +8,15 @@ app.experimental = true
 var n = parseInt(process.env.MW || '1', 10);
 
 while (n--) {
-  app.use(async (ctx, next) => {
-    await next(ctx);
+  app.use(async function (next) {
+    await next()
   });
 }
 
 var body = new Buffer('Hello World');
 
-app.use(async (ctx) => {
-  ctx.body = body;
+app.use(async function () {
+  this.body = body;
 });
 
 app.listen(3333);
