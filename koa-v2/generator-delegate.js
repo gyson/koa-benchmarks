@@ -1,13 +1,13 @@
 'use strict';
 
-var Koa = require('koa-v1');
+var Koa = require('koa');
 var app = new Koa();
 
 var n = parseInt(process.env.MW || '1', 10);
 
 while (n--) {
   app.use(function* (next){
-    return yield next;
+    return yield* next;
   });
 }
 

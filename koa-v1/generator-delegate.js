@@ -1,7 +1,7 @@
 'use strict';
 
-var koa = require('koa-v1');
-var app = koa();
+var Koa = require('koa-v1');
+var app = new Koa();
 
 var n = parseInt(process.env.MW || '1', 10);
 

@@ -66,7 +66,9 @@ use \`wrk\` to test the Requests/sec (higher is better) for 1, 25, 50, 75, 100 n
 |:---------|----:|--:|---:|---:|---:|----:|`)
 
 bench('koa-v1/generator-yield.js', 'return yield next')
+bench('koa-v2/generator-yield.js', 'return yield next')
 bench('koa-v1/generator-delegate.js', 'return yield* next')
+bench('koa-v2/generator-delegate.js', 'return yield* next')
 bench('koa-v2/async-await.js', 'await next()')
 bench('koa-v2/function-return.js', 'return next()')
 
