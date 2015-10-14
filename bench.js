@@ -45,10 +45,11 @@ function run(filename, mw) {
     })
 }
 
-function bench(name, api, filename) {
+function bench(name, api) {
     process.stdout.write(`| [${name}](${name}) | \`${api}\``)
 
     for (let i of [1, 25, 50, 75, 100]) {
+        let filename = path.join(__dirname, name)
         let output = run(filename, i).toString()
 
         process.stdout.write(' | ' + /\d+(?:.\d+)?/.exec(output)[0])
@@ -63,8 +64,10 @@ use \`wrk\` to test the Requests/sec (higher is better) for 1, 25, 50, 75, 100 n
 
 | filename | API | 1 | 25 | 50 | 75 | 100 |
 |:---------|----:|--:|---:|---:|---:|----:|`)
-bench('koa-next-as-wrapper/async-await.js', 'await next', path.join(__dirname, 'koa-next-as-wrapper/async-await.js'))
-bench('koa-next-as-function/async-await.js', 'await next()', path.join(__dirname, 'koa-next-as-function/async-await.js'))
-bench('koa-next-as-wrapper/generator-yield.js', 'return yield next', path.join(__dirname, 'koa-next-as-wrapper/generator-yield.js'))
-bench('koa-next-as-wrapper/generator-delegate.js', 'return yield* next', path.join(__dirname, 'koa-next-as-wrapper/generator-delegate.js'))
-bench('koa-next-as-function/function-return.js', 'return next()', path.join(__dirname, 'koa-next-as-function/function-return.js'))
+
+bench('koa-v1/generator-yield.js', 'return yield next')
+bench('koa-v1/generator-delegate.js', 'return yield* next')
+bench('koa-v2/async-await.js', 'await next()')
+bench('koa-v2/function-return.js', 'return next()')
+
+console.log('')

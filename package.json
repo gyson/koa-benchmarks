@@ -9,6 +9,8 @@
   "author": "gyson <eilian.yunsong@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "koa-v1": "gyson/koa-v1",
+    "koa": "gyson/koa#async-function",
     "accepts": "^1.2.2",
     "bluebird": "^2.9.34",
     "co": "^4.4.0",
@@ -25,7 +27,6 @@
     "glob": "^5.0.14",
     "http-assert": "^1.1.0",
     "http-errors": "^1.2.8",
-    "koa": "^1.0.0",
     "koa-compose": "^2.3.0",
     "koa-is-json": "^1.0.0",
     "mime-types": "^2.0.7",
